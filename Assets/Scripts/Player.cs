@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float _gravityForce;
     [SerializeField] private float _jumpForce;
 
+    private int _coins;
     private float _yVelocity;
     private bool _doubleJumpReady = true;
     private PlayerInputActions _input;
     private CharacterController _controller;
+
+
+    public static Action<int> OnCollectCoin;
 
     // Start is called before the first frame update
     void Start()
@@ -59,5 +64,11 @@ public class Player : MonoBehaviour
 
         velocity.y = _yVelocity;
         _controller.Move(velocity * Time.deltaTime);
+    }
+
+    public void CollectCoin()
+    {
+        _coins++;
+        OnCollectCoin?.Invoke(_coins);
     }
 }
